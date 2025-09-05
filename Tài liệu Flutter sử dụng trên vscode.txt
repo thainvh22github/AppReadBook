@@ -1,0 +1,21 @@
+B1: Mở VSCode
+B2: Xem link tham khảo https://docs.flutter.dev/install/with-vs-code
+Tóm tắt:
+- Vào extention thêm Dart và Flutter vào VS Code
+- Control+ Shift+ P => Trong bảng lệnh, nhập flutter =>Chọn Flutter: Dự án mới 
+- VS Code sẽ nhắc bạn tìm Flutter SDK trên máy tính của bạn. Chọn Tải xuống SDK .
+- Khi hộp thoại Chọn thư mục cho Flutter SDK hiển thị, hãy chọn nơi bạn muốn cài đặt Flutter.
+- Nhấp vào Clone Flutter .
+- Nhấp vào Thêm SDK vào PATH .
+Lưu ý:      Để đảm bảo Flutter có sẵn trên tất cả các thiết bị đầu cuối:
+	Đóng rồi mở lại tất cả cửa sổ terminal.
+	Khởi động lại VS Code.
+
+Dùng lệnh flutter run -d chrome để chạy code
+
+Extention: 
+1: Dart 
+2: Flutter 
+3: Flutter Widget Snippets → gõ nhanh widget.
+5. Flutter Tree 👉 hiển thị cây widget trực quan.
+6. Flutter Stylizer 👉 tự động sắp xếp property trong widget cho dễ đọc.
