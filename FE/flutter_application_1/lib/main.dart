@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'base/bottom_nav_button.dart'; // import file widget base
+import 'services/home_service.dart'; // import file service
+
+late Future<List<dynamic>> posts;
 
 void main() {
   runApp(const MyApp());
@@ -33,7 +36,7 @@ class MyHomePage extends StatelessWidget {
               text: "Trang chủ 1",
               imagePath: Icon(Icons.home_outlined), // hình trong assets
               onTap: () {
-                print("Trang chủ");
+                posts = HomeService().fetchPosts(); // gọi API ở đây
               },
             ),
             BottomNavButton(
