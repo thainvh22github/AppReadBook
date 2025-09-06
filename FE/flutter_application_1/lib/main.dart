@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'base/bottom_nav_button.dart'; // import file widget base
+import 'base/search_bar.dart'; // import file widget base
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(child: Text("Nội dung chính")),
+      body: searchBar(),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
         color: Colors.grey[200],
