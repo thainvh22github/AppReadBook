@@ -10,66 +10,64 @@ class searchBar extends StatelessWidget {
    * thanh tim kiem
    */
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(202, 0, 0, 0),
-        title: Container(
-          height: 40,
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: const Color.fromARGB(
-                  255,
-                  0,
-                  0,
-                  0,
-                ).withOpacity(0.5), // mau bong
-                spreadRadius: 1, //do lan bong
-                blurRadius: 6, // do mo
-                offset: const Offset(0, 3), // ngang - doc
+    return Container(
+      height: 70,
+      padding: const EdgeInsets.only(top: 15, right: 20, left: 20),
+      color: const Color(0xFF242424), // nền ngoài cùng
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // thanh tìm kiếm
+          Expanded(
+            child: Container(
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.grey[800],
+                borderRadius: BorderRadius.circular(30),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 6,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: TextField(
+                style: const TextStyle(color: Colors.white),
+                decoration: const InputDecoration(
+                  hintText: "Tìm kiếm...",
+
+                  hintStyle: TextStyle(color: Colors.white70, fontSize: 14),
+                  prefixIcon: Icon(Icons.search, color: Colors.white),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.leaderboard, color: Colors.white),
+                onPressed: () {
+                  print("Leaderboard");
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.grid_view, color: Colors.white),
+                onPressed: () {
+                  print("Grid view");
+                },
               ),
             ],
           ),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: "Tim kiem...",
-              hintStyle: const TextStyle(
-                color: Color.fromARGB(255, 239, 239, 239),
-                fontSize: 14,
-              ),
-              prefixIcon: const Icon(
-                Icons.search,
-                color: Color.fromARGB(255, 239, 239, 239),
-              ),
-              border: InputBorder.none,
-              contentPadding: const EdgeInsets.symmetric(vertical: 10),
-            ),
-          ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(
-              Icons.leaderboard,
-              color: Color.fromARGB(255, 239, 239, 239),
-            ),
-            onPressed: () {
-              print("Thong bao");
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.grid_view,
-              color: Color.fromARGB(255, 239, 239, 239),
-            ),
-            onPressed: () {
-              print("Thong bao");
-            },
-          ),
         ],
       ),
-      body: const Center(child: Text("Noi dung chinh")),
     );
   }
 }
