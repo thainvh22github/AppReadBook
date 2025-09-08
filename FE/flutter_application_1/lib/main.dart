@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'base/bottom_nav_button.dart'; // import file widget base
+import 'base/search_bar.dart'; // import file widget base
+import 'base/hot_manga.dart';
 import 'services/home_service.dart'; // import file service
 
 late Future<List<dynamic>> posts;
@@ -13,9 +15,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MyHomePage(),
-    );
+    return const MaterialApp(home: MyHomePage());
   }
 }
 
@@ -25,10 +25,13 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: const Center(child: Text("Nội dung chính")),
+      body: Container(
+        child: Column(children: [searchBar(), HotManga()]),
+        color: Colors.black,
+      ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        color: Colors.grey[200],
+        color: const Color.fromARGB(255, 0, 0, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
