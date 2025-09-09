@@ -8,20 +8,16 @@ class HotManga extends StatefulWidget {
   @override
   State<HotManga> createState() => _HotMangaState();
 }
-
 /**
  * ndtduong
  * 07/09/25
  * tao list truyen hott
  */
+
 class _HotMangaState extends State<HotManga> {
-  final ScrollController _scrollController = ScrollController();
+  final PageController _pageController = PageController(viewportFraction: 0.25);
   int _currentPage = 0;
-
-  final double _itemWidth = 120; //chieu rong item
   Timer? _timer;
-
-  bool _isAutoScrolling = false;
 
   @override
   void initState() {
@@ -32,26 +28,20 @@ class _HotMangaState extends State<HotManga> {
   void _startAutoScroll() {
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
-      if (_scrollController.hasClients) {
-        _isAutoScrolling = true; // bật cờ
+      if (_pageController.hasClients) {
         setState(() {
           _currentPage++;
           if (_currentPage >= HotMangaStories.length) {
-            // reset về đầu
-            _scrollController.jumpTo(0);
             _currentPage = 0;
-          }
-        });
-
-        _scrollController
-            .animateTo(
-              _currentPage * (_itemWidth),
+            _pageController.jumpToPage(0);
+          } else {
+            _pageController.animateToPage(
+              _currentPage,
               duration: const Duration(milliseconds: 600),
               curve: Curves.easeInOut,
-            )
-            .whenComplete(() {
-              _isAutoScrolling = false; // tắt cờ khi animation xong
-            });
+            );
+          }
+        });
       }
     });
   }
@@ -59,28 +49,16 @@ class _HotMangaState extends State<HotManga> {
   @override
   void dispose() {
     _timer?.cancel();
-    _scrollController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   void _pauseAutoScroll() {
     _timer?.cancel();
-    // Sau 2 giây không vuốt thì chạy lại
-    Future.delayed(const Duration(seconds: 2), () {
+    // sau 1s ko vuốt thì chạy tiếp
+    Future.delayed(const Duration(seconds: 1), () {
       if (mounted) _startAutoScroll();
     });
-  }
-
-  void _updateCurrentPage() {
-    if (_scrollController.hasClients) {
-      double offset = _scrollController.offset;
-      int index = (offset / _itemWidth).round();
-      if (index != _currentPage) {
-        setState(() {
-          _currentPage = index.clamp(0, HotMangaStories.length - 1);
-        });
-      }
-    }
   }
 
   @override
@@ -88,10 +66,12 @@ class _HotMangaState extends State<HotManga> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Tiêu đề
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: const [
               Text(
                 "Không thể bỏ lỡ",
@@ -101,129 +81,124 @@ class _HotMangaState extends State<HotManga> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                "Hot nhất >",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 194, 194, 194),
-                  fontSize: 12,
-                ),
+              Row(
+                children: [
+                  Text(
+                    "Hot nhất",
+                    style: const TextStyle(
+                      color: Color.fromARGB(255, 194, 194, 194),
+                      fontSize: 12,
+                    ),
+                  ),
+                  const SizedBox(width: 4), // cách chữ với icon 1 chút
+                  const Icon(
+                    Icons.arrow_right,
+                    color: Color.fromARGB(255, 194, 194, 194),
+                    size: 18,
+                  ),
+                ],
               ),
             ],
           ),
         ),
 
-        // List truyen
-        Container(
-          height: 260,
-          child: NotificationListener<ScrollNotification>(
-            onNotification: (scroll) {
-              if (!_isAutoScrolling) {
-                if (scroll is ScrollUpdateNotification ||
-                    scroll is ScrollEndNotification) {
-                  _pauseAutoScroll(); // dừng auto khi vuốt
-                  double offset = _scrollController.offset;
-                  int index = (offset / _itemWidth).round();
-                  index = index.clamp(0, HotMangaStories.length - 1);
+        // PageView
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
 
-                  if (index != _currentPage) {
-                    setState(() {
-                      _currentPage = index;
-                    });
-                  }
-                }
-              }
-              return true;
-            },
-
-            child: ListView.builder(
-              controller: _scrollController,
-              scrollDirection: Axis.horizontal,
+          child: Container(
+            height: MediaQuery.of(context).size.width * 0.5 * 1.25,
+            margin: EdgeInsets.only(left: 10),
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: (index) {
+                _pauseAutoScroll();
+                setState(() {
+                  _currentPage = index;
+                });
+              },
               itemCount: HotMangaStories.length,
-              padding: const EdgeInsets.only(left: 16),
-
+              padEnds: false,
               itemBuilder: (context, index) {
                 final story = HotMangaStories[index];
                 bool isActive = index == _currentPage;
 
                 return AnimatedContainer(
-                  duration: const Duration(microseconds: 400),
-                  width: 120,
-
+                  duration: const Duration(milliseconds: 400),
                   margin: EdgeInsets.symmetric(
-                    horizontal: isActive ? 6 : 0,
-                    vertical: isActive ? 20 : 25,
-                  ), // item dc chon -> margin trai/phai = 12
+                    horizontal: isActive ? 4 : 8,
+                    vertical: isActive ? 10 : 15,
+                  ),
 
-                  child: Transform.scale(
-                    scale: isActive ? 1.1 : 0.9,
-                    child: AnimatedOpacity(
-                      opacity: isActive ? 1.0 : 0.6,
-                      duration: const Duration(milliseconds: 400),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // ảnh
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: isActive
-                                      ? Colors.white.withOpacity(0.8)
-                                      : Colors.black.withOpacity(0.3),
-                                  blurRadius: isActive ? 8 : 4,
-                                  spreadRadius: isActive ? 4 : 1,
-                                ),
-                              ],
-                            ),
+                  child: AnimatedOpacity(
+                    opacity: isActive ? 1.0 : 0.6,
+                    duration: const Duration(milliseconds: 400),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Ảnh
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
 
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
-                                story.image,
-                                width: _itemWidth - 20,
-                                height: 120,
-                                fit: BoxFit.cover,
+                            boxShadow: [
+                              BoxShadow(
+                                color: isActive
+                                    ? Colors.white.withOpacity(0.8)
+                                    : const Color(0xFFFFFFFF).withOpacity(0.3),
+                                blurRadius: isActive ? 4 : 1,
+                                spreadRadius: isActive ? 4 : 1,
                               ),
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-
-                          //tieu de
-                          Container(
-                            width: _itemWidth,
-
-                            child: Text(
-                              story.title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14,
-                              ),
-                            ),
+                            ],
                           ),
 
-                          // the loai
-                          Wrap(
-                            spacing: 4,
-                            runSpacing: -4,
-                            children: story.categories
-                                .map(
-                                  (cat) => Text(
-                                    cat,
-                                    maxLines: 2,
-                                    style: const TextStyle(
-                                      color: Color.fromARGB(255, 194, 194, 194),
-                                      fontSize: 12,
-                                    ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              story.image,
+                              width: MediaQuery.of(context).size.width * 0.25,
+                              height:
+                                  MediaQuery.of(context).size.width *
+                                  0.25 *
+                                  1.25, // giữ tỉ lệ 1.25
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        // Tiêu đề
+                        Container(
+                          width: 120,
+                          child: Text(
+                            story.title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+
+                        // Thể loại
+                        Wrap(
+                          spacing: 4,
+                          runSpacing: -4,
+                          children: story.categories
+                              .map(
+                                (cat) => Text(
+                                  cat,
+                                  maxLines: 2,
+                                  style: const TextStyle(
+                                    color: Color.fromARGB(255, 194, 194, 194),
+                                    fontSize: 12,
                                   ),
-                                )
-                                .toList(),
-                          ),
-                        ],
-                      ),
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ],
                     ),
                   ),
                 );
