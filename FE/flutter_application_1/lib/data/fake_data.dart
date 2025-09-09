@@ -48,4 +48,14 @@ List<Story> HotMangaStories = [
     categories: ["CP Idol"],
     image: "lib/imgs/onepiece.jpg",
   ),
+  Story(
+    title: "[DuongHieu] Một Đời",
+    categories: ["CP Idol"],
+    image: "lib/imgs/onepiece.jpg",
+  ),
+  Story(
+    title: "[DuongHieu] Một Đời",
+    categories: ["CP Idol"],
+    image: "lib/imgs/onepiece.jpg",
+  ),
 ];

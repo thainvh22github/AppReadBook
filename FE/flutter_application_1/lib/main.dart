@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'base/bottom_nav_button.dart'; // import file widget base
+import 'package:flutter_application_1/base/bottom_nav.dart';
+// import file widget base
 import 'base/search_bar.dart'; // import file widget base
-import 'base/hot_manga.dart';
-import 'services/home_service.dart'; // import file service
+import 'base/hot_manga.dart';// import file service
+import 'package:google_fonts/google_fonts.dart';
 
 late Future<List<dynamic>> posts;
 
@@ -15,7 +16,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: MyHomePage());
+    return MaterialApp(
+      theme: ThemeData(
+        // Áp dụng Roboto cho toàn bộ text
+        textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme),
+      ),
+      home: const MyHomePage(),
+    );
   }
 }
 
@@ -29,29 +36,7 @@ class MyHomePage extends StatelessWidget {
         child: Column(children: [searchBar(), HotManga()]),
         color: Colors.black,
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        color: const Color.fromARGB(255, 0, 0, 0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            BottomNavButton(
-              text: "Trang chủ 1",
-              imagePath: Icon(Icons.home_outlined), // hình trong assets
-              onTap: () {
-                posts = HomeService().fetchPosts(); // gọi API ở đây
-              },
-            ),
-            BottomNavButton(
-              text: "Danh mục",
-              imagePath: Icon(Icons.home_outlined),
-              onTap: () {
-                print("Danh mục");
-              },
-            ),
-          ],
-        ),
-      ),
+      bottomNavigationBar: BottomNav(),
     );
   }
 }
