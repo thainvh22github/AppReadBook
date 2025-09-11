@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/fake_data.dart';
+import 'package:flutter_application_1/services/base/localization_service.dart';
 import 'dart:async';
 
 class HotManga extends StatefulWidget {
@@ -72,9 +73,9 @@ class _HotMangaState extends State<HotManga> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
+            children: [
               Text(
-                "Không thể bỏ lỡ",
+                LocalizationService.text("home_cannot_miss"),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 18,
@@ -84,7 +85,7 @@ class _HotMangaState extends State<HotManga> {
               Row(
                 children: [
                   Text(
-                    "Hot nhất",
+                    LocalizationService.text("home_hot"),
                     style: const TextStyle(
                       color: Color.fromARGB(255, 194, 194, 194),
                       fontSize: 12,
@@ -107,7 +108,7 @@ class _HotMangaState extends State<HotManga> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
 
           child: Container(
-            height: MediaQuery.of(context).size.width * 0.5 * 1.25,
+            height: MediaQuery.of(context).size.width * 0.35 * (4 / 3) + 30,
             margin: EdgeInsets.only(left: 10),
             child: PageView.builder(
               controller: _pageController,
@@ -189,7 +190,7 @@ class _HotMangaState extends State<HotManga> {
                               .map(
                                 (cat) => Text(
                                   cat,
-                                  maxLines: 2,
+                                  maxLines: 1,
                                   style: const TextStyle(
                                     color: Color.fromARGB(255, 194, 194, 194),
                                     fontSize: 12,

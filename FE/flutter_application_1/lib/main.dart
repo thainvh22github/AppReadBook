@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/base/bottom_nav.dart';
 // import file widget base
 import 'base/search_bar.dart'; // import file widget base
-import 'base/hot_manga.dart';// import file service
+import 'base/hot_manga.dart'; // import file service
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_application_1/base/ranking_list.dart';
 
 late Future<List<dynamic>> posts;
 
@@ -33,8 +34,31 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Column(children: [searchBar(), HotManga()]),
         color: Colors.black,
+        child: SafeArea(
+          // tránh bị che bởi tai thỏ/status bar
+          child: Column(
+            children: [
+              // Thanh search cố định
+              searchBar(),
+
+              // Phần nội dung có thể cuộn
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      HotManga(),
+                      RankingList(),
+                      SizedBox(height: 20),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
       bottomNavigationBar: BottomNav(),
     );
