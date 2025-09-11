@@ -1,0 +1,24 @@
+{
+  "Version": 1,
+  "Hash": "yzp0re+sCXEX4SYhj+yi0GKc6lO6aOwsRN1MTRzpjZs=",
+  "Source": "ReadBookService",
+  "BasePath": "_content/ReadBookService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [
+    {
+      "Identity": "C:\\Users\\NHThai\\Desktop\\AppReadBook\\BE\\ReadBook\\ReadBookRepo\\ReadBookRepo.csproj",
+      "Version": 2,
+      "Source": "ReadBookRepo",
+      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
+      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework",
+      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
+      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
+      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework"
+    }
+  ],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

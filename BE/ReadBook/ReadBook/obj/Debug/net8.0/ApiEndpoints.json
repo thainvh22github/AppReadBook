@@ -1,0 +1,22 @@
+[
+  {
+    "ContainingType": "Weding.Controllers.HomeController",
+    "Method": "GetAll",
+    "RelativePath": "Home/all",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.IEnumerable",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  }
+]
