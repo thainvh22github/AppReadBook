@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/fake_data.dart';
-import 'package:flutter_application_1/services/base/localization_service.dart';
+import 'package:flutter_application_1/data/resource.dart';
 import 'dart:async';
 
 class HotManga extends StatefulWidget {
@@ -108,7 +108,7 @@ class _HotMangaState extends State<HotManga> {
           padding: const EdgeInsets.symmetric(horizontal: 10),
 
           child: Container(
-            height: MediaQuery.of(context).size.width * 0.35 * (4 / 3) + 30,
+            height: MediaQuery.of(context).size.width * 0.45 * (4 / 3),
             margin: EdgeInsets.only(left: 10),
             child: PageView.builder(
               controller: _pageController,
@@ -174,10 +174,12 @@ class _HotMangaState extends State<HotManga> {
                             story.title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              fontSize:
+                                  MediaQuery.of(context).size.width *
+                                  0.03, // 3% chiều rộng màn hình
                             ),
                           ),
                         ),
@@ -191,9 +193,11 @@ class _HotMangaState extends State<HotManga> {
                                 (cat) => Text(
                                   cat,
                                   maxLines: 1,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Color.fromARGB(255, 194, 194, 194),
-                                    fontSize: 12,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                        0.03, // 3% chiều rộng màn hình
                                   ),
                                 ),
                               )
