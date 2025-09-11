@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/services/base/localization_service.dart';
 
 class searchBar extends StatelessWidget {
   const searchBar({super.key});
@@ -38,9 +39,10 @@ class searchBar extends StatelessWidget {
                 padding: EdgeInsets.symmetric(vertical: 10),
                 child: TextField(
                   style: const TextStyle(color: Colors.white60),
-                  decoration: const InputDecoration(
-                    hintText: "Tìm kiếm...",
-
+                  decoration: InputDecoration(
+                    hintText: LocalizationService.text(
+                      "search_hint",
+                    ), //text trong search
                     hintStyle: TextStyle(color: Colors.white70, fontSize: 14),
                     prefixIcon: Icon(Icons.search, color: Colors.white70),
                     border: InputBorder.none,
