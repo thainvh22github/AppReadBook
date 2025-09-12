@@ -1,0 +1,8 @@
+C:\Users\NHThai\source\repos\ReadBook\ReadBookService\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\NHThai\source\repos\ReadBook\ReadBookService\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\NHThai\source\repos\ReadBook\ReadBookService\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\NHThai\source\repos\ReadBook\ReadBookRepo\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\NHThai\source\repos\ReadBook\ReadBookService\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\NHThai\source\repos\ReadBook\ReadBookRepo\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\NHThai\Desktop\AppReadBook\BE\ReadBook\ReadBookService\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\NHThai\Desktop\AppReadBook\BE\ReadBook\ReadBookRepo\obj\Debug\net8.0\staticwebassets.build.json

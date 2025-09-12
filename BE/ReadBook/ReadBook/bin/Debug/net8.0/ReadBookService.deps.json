@@ -1,0 +1,39 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ReadBookService/1.0.0": {
+        "dependencies": {
+          "ReadBookRepo": "1.0.0"
+        },
+        "runtime": {
+          "ReadBookService.dll": {}
+        }
+      },
+      "ReadBookRepo/1.0.0": {
+        "runtime": {
+          "ReadBookRepo.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ReadBookService/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "ReadBookRepo/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
