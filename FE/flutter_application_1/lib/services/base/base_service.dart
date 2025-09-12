@@ -11,7 +11,7 @@ class BaseService {
   BaseService({required this.baseUrl});
 
   /// =======================
-  /// GET request
+  /// GET request(lấy)
   /// endpoint: đường dẫn API, ví dụ '/posts'
   /// headers: thêm header tuỳ chọn
   Future<dynamic> get(String endpoint, {Map<String, String>? headers}) async {
@@ -23,12 +23,15 @@ class BaseService {
   }
 
   /// =======================
-  /// POST request
+  /// POST request(tạo)
   /// endpoint: đường dẫn API
   /// body: dữ liệu gửi lên dạng Map
   /// headers: thêm header tuỳ chọn (default JSON)
-  Future<dynamic> post(String endpoint, Map<String, dynamic> body,
-      {Map<String, String>? headers}) async {
+  Future<dynamic> post(
+    String endpoint,
+    Map<String, dynamic> body, {
+    Map<String, String>? headers,
+  }) async {
     final response = await http.post(
       Uri.parse('$baseUrl$endpoint'),
       headers: headers ?? {'Content-Type': 'application/json'},
@@ -38,12 +41,15 @@ class BaseService {
   }
 
   /// =======================
-  /// PUT request
+  /// PUT request(thay thế)
   /// endpoint: đường dẫn API
   /// body: dữ liệu cập nhật
   /// headers: tuỳ chọn
-  Future<dynamic> put(String endpoint, Map<String, dynamic> body,
-      {Map<String, String>? headers}) async {
+  Future<dynamic> put(
+    String endpoint,
+    Map<String, dynamic> body, {
+    Map<String, String>? headers,
+  }) async {
     final response = await http.put(
       Uri.parse('$baseUrl$endpoint'),
       headers: headers ?? {'Content-Type': 'application/json'},
@@ -56,7 +62,10 @@ class BaseService {
   /// DELETE request
   /// endpoint: đường dẫn API
   /// headers: tuỳ chọn
-  Future<dynamic> delete(String endpoint, {Map<String, String>? headers}) async {
+  Future<dynamic> delete(
+    String endpoint, {
+    Map<String, String>? headers,
+  }) async {
     final response = await http.delete(
       Uri.parse('$baseUrl$endpoint'),
       headers: headers,

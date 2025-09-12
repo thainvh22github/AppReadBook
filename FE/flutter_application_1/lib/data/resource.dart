@@ -16,6 +16,10 @@ class LocalizationService {
     //text trang ranking_list
     "ranking_this_month": "BXH tháng này",
     "ranking_full": "BXH hoàn chỉnh",
+    //text trang recomment_list
+    "you_can_like": "Có thể bạn sẽ thích",
+    "more": "Thêm",
+    "all_shown": "Đã hiển thị hết",
   };
 
   // Nếu muốn hỗ trợ đa ngôn ngữ sau này thì có thể thêm map en, jp,...
