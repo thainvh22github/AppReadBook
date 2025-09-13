@@ -72,7 +72,7 @@ class _RankingListState extends State<RankingList> {
 
         // Danh sách BXH từng trang
         Container(
-          height: 320,
+          height: MediaQuery.of(context).size.height * 0.18 * 3,
           child: PageView.builder(
             controller: _pageController,
             itemCount: totalPages,
@@ -116,8 +116,11 @@ class _RankingListState extends State<RankingList> {
                             borderRadius: BorderRadius.circular(6),
                             child: Image.asset(
                               item["img"]!,
-                              width: 60,
-                              height: 80,
+                              height:
+                                  MediaQuery.of(context).size.height *
+                                  0.1 *
+                                  (4 / 3),
+                              width: MediaQuery.of(context).size.height * 0.1,
                               fit: BoxFit.cover,
                             ),
                           ),
