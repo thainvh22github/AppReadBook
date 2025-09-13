@@ -14,7 +14,7 @@ class LocalizationService {
     "menu_self": "Tôi",
     "search_hint": "Tìm kiếm...",
     //text trang ranking_list
-    "ranking_this_month": "BXH Tháng Này",
+    "ranking_this_month": "BXH tháng này",
     "ranking_full": "BXH hoàn chỉnh",
   };
 

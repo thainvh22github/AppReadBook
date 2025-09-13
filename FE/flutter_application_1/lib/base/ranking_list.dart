@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/fake_data.dart';
-import 'package:flutter_application_1/services/base/localization_service.dart';
+import 'package:flutter_application_1/data/resource.dart';
 
 class RankingList extends StatefulWidget {
   const RankingList({super.key});
@@ -44,7 +44,7 @@ class _RankingListState extends State<RankingList> {
               Text(
                 LocalizationService.text("ranking_this_month"),
                 style: TextStyle(
-                  color: Colors.amberAccent,
+                  color: Colors.white,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -124,7 +124,11 @@ class _RankingListState extends State<RankingList> {
                           const SizedBox(width: 10),
 
                           // Nội dung
-                          Expanded(
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxWidth:
+                                  MediaQuery.of(context).size.width * 0.45,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -145,18 +149,23 @@ class _RankingListState extends State<RankingList> {
                                       color: Colors.white70,
                                       size: 18,
                                     ),
-                                    Text(
-                                      " ${item["views"]}",
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
+                                    Flexible(
+                                      child: Text(
+                                        " ${item["views"]}",
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: const TextStyle(
+                                          color: Colors.grey,
+                                          fontSize: 12,
+                                        ),
                                       ),
                                     ),
                                   ],
                                 ),
-
                                 Text(
                                   item["author"]!,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                     color: Colors.grey,
                                     fontSize: 12,
@@ -186,7 +195,7 @@ class _RankingListState extends State<RankingList> {
               height: 8,
               decoration: BoxDecoration(
                 color: _currentPage == index
-                    ? Colors.amberAccent
+                    ? Colors.white70
                     : Colors.grey.shade600,
                 borderRadius: BorderRadius.circular(4),
               ),

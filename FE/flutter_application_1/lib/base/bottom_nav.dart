@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/base/localization_service.dart';
+import 'package:flutter_application_1/data/resource.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});

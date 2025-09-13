@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/services/base/localization_service.dart';
+import 'package:flutter_application_1/data/resource.dart';
 
 class searchBar extends StatelessWidget {
   const searchBar({super.key});
@@ -36,7 +36,7 @@ class searchBar extends StatelessWidget {
                     ),
                   ],
                 ),
-                padding: EdgeInsets.symmetric(vertical: 10),
+
                 child: TextField(
                   style: const TextStyle(color: Colors.white60),
                   decoration: InputDecoration(
