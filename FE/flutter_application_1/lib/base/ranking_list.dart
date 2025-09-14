@@ -9,38 +9,42 @@ class RankingList extends StatefulWidget {
   State<RankingList> createState() => _RankingListState();
 }
 
-/**
- * nvtduong
- * 11/09/25
- * bxh tháng
- */
+/// danh sach truyen xep hang
+/// Author: nvtduong
+/// Date: 11/09/25
 class _RankingListState extends State<RankingList> {
+  // Controller để điều khiển PageView
   late PageController _pageController;
   int _currentPage = 0;
+
   @override
   void initState() {
     super.initState();
+    // Khởi tạo PageController với viewportFraction để hiển thị nhiều cột
     _pageController = PageController(viewportFraction: 0.8);
   }
 
   @override
   void dispose() {
+    // Giải phóng tài nguyên
     _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Mỗi trang có 3 mục
     final totalPages = (RankingStories.length / 3).ceil();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Header
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Tiêu đề
               Text(
                 LocalizationService.text("ranking_this_month"),
                 style: TextStyle(
@@ -51,6 +55,7 @@ class _RankingListState extends State<RankingList> {
               ),
               Row(
                 children: [
+                  // nút xem thêm
                   Text(
                     LocalizationService.text("ranking_full"),
                     style: TextStyle(
@@ -74,27 +79,43 @@ class _RankingListState extends State<RankingList> {
         Container(
           height: MediaQuery.of(context).size.height * 0.18 * 3,
           child: PageView.builder(
+            // cho phép cuộn ngang
             controller: _pageController,
+
+            // Tổng số trang
             itemCount: totalPages,
+
+            // Cập nhật chỉ số trang hiện tại khi trang thay đổi
             onPageChanged: (index) {
               setState(() {
                 _currentPage = index;
               });
             },
+
+            // Xây dựng từng trang
             itemBuilder: (context, columnIndex) {
+              // Lấy 3 mục cho mỗi trang
               final startIndex = columnIndex * 3;
+
+              // Đảm bảo không vượt quá độ dài danh sách
               final endIndex = (startIndex + 3 <= RankingStories.length)
                   ? startIndex + 3
                   : RankingStories.length;
 
+              // Lấy nhóm 3 mục
               final group = RankingStories.sublist(startIndex, endIndex);
 
               return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+
+                // Duyệt qua từng mục trong nhóm
                 children: group.map((item) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(vertical: 6),
                     child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 6),
+
+                      // khung chứa mỗi mục
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -129,8 +150,7 @@ class _RankingListState extends State<RankingList> {
                           // Nội dung
                           ConstrainedBox(
                             constraints: BoxConstraints(
-                              maxWidth:
-                                  MediaQuery.of(context).size.width * 0.45,
+                              maxWidth: MediaQuery.of(context).size.width * 0.4,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,7 +158,10 @@ class _RankingListState extends State<RankingList> {
                                 Text(
                                   item["title"]!,
                                   maxLines: 1,
+
+                                  // nếu tiêu đề dài quá thì hiện dấu ...
                                   overflow: TextOverflow.ellipsis,
+
                                   style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -146,6 +169,7 @@ class _RankingListState extends State<RankingList> {
                                 ),
                                 const SizedBox(height: 2),
                                 Row(
+                                  // Lượt xem và tác giả
                                   children: [
                                     const Icon(
                                       Icons.visibility,
@@ -190,12 +214,24 @@ class _RankingListState extends State<RankingList> {
         // số trang
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
+
+          // Dấu chấm chỉ số trang
           children: List.generate(totalPages, (index) {
+            /// hiệu ứng chuyển động mượt mà khi trang thay đổi
             return AnimatedContainer(
-              duration: const Duration(milliseconds: 300),
+              duration: const Duration(
+                // thời gian chuyển đổi
+                milliseconds: 300,
+              ),
+              curve: Curves.easeInOut, // hiệu ứng chuyển đổi
+
               margin: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
-              width: _currentPage == index ? 16 : 8,
+              width: _currentPage == index
+                  ? 16
+                  : 8, // rộng hơn nếu là trang hiện tại
               height: 8,
+
+              // màu sắc thay đổi nếu là trang hiện tại
               decoration: BoxDecoration(
                 color: _currentPage == index
                     ? Colors.white70

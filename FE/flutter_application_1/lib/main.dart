@@ -24,33 +24,53 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  final ScrollController _scrollController = ScrollController();
+
+  // Khóa để gọi hàm loadMore() trong RecommendedList từ ngoài
+  final GlobalKey<RecommendedListState> _recommendedKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels >=
+          _scrollController.position.maxScrollExtent - 200) {
+        // 🔥 Gọi loadMore trong RecommendedList
+        _recommendedKey.currentState?.loadMore();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        // tranh bi che boi status bar
         child: Column(
           children: [
-            // Thanh search cố định
+            // Search bar cố định
             searchBar(),
 
-            // Phần nội dung cuộn
+            // Nội dung cuộn
             Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    HotManga(),
-                    RankingList(),
-                    SizedBox(height: 20),
-                    RecommendedList(),
-                  ],
-                ),
+              child: CustomScrollView(
+                controller: _scrollController,
+                slivers: [
+                  const SliverToBoxAdapter(child: HotManga()),
+                  const SliverToBoxAdapter(child: RankingList()),
+                  const SliverToBoxAdapter(child: SizedBox(height: 20)),
+                  SliverToBoxAdapter(
+                    child: RecommendedList(key: _recommendedKey),
+                  ),
+                ],
               ),
             ),
           ],
