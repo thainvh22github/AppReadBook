@@ -1,11 +1,16 @@
+import 'package:flutter_application_1/models/hot_manga_stories.dart';
+
 import 'base/base_service.dart';
 
-class HomeService  extends BaseService {
+class HomeService extends BaseService {
+  HomeService() : super(baseUrl: 'https://localhost:7231/Home');
 
-HomeService() : super(baseUrl: 'https://jsonplaceholder.typicode.com');
-
-  Future<List<dynamic>> fetchPosts() async {
-    return await get('/posts');
+  Future<List<HotMangaStories>> getHotmanga() async {
+    var item = await get('/all');
+    List<HotMangaStories> result = (item as List)
+        .map((json) => HotMangaStories.fromJson(json))
+        .toList();
+    return result;
   }
 
   Future<Map<String, dynamic>> createPost(Map<String, dynamic> data) async {

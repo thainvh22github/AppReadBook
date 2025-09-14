@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/fake_data.dart';
 import 'package:flutter_application_1/data/resource.dart';
 import 'dart:async';
+import 'package:flutter_application_1/services/home_service.dart';
 
 class HotManga extends StatefulWidget {
   const HotManga({super.key});
@@ -20,12 +21,25 @@ class _HotMangaState extends State<HotManga> {
 
   int _currentPage = 0;
   Timer? _timer;
+  var itemAll = [];
 
   @override
   // Khởi tạo và bắt đầu tự động cuộn
   void initState() {
     super.initState();
-    _startAutoScroll();
+    Future.delayed(Duration.zero, () async {
+      await loadData();
+      _startAutoScroll();
+    });
+  }
+
+  Future<void> loadData() async {
+    // Giả lập tải dữ liệu từ API
+    var homeService = HomeService();
+    var item = await homeService.getHotmanga();
+    setState(() {
+      itemAll = item;
+    });
   }
 
   void _startAutoScroll() {
@@ -40,7 +54,7 @@ class _HotMangaState extends State<HotManga> {
           _currentPage++;
 
           // Nếu vượt quá số trang, quay lại trang đầu
-          if (_currentPage >= HotMangaStories.length) {
+          if (_currentPage >= itemAll.length) {
             _currentPage = 0;
 
             // nhảy thẳng về trang đầu
@@ -140,12 +154,12 @@ class _HotMangaState extends State<HotManga> {
               },
 
               // Số lượng mục trong danh sách
-              itemCount: HotMangaStories.length,
+              itemCount: itemAll.length,
 
               // Không cần pad hai đầu
               padEnds: false,
               itemBuilder: (context, index) {
-                final story = HotMangaStories[index];
+                final story = itemAll[index];
 
                 // Kiểm tra nếu mục hiện tại được chọn
                 bool isActive = index == _currentPage;
@@ -220,7 +234,7 @@ class _HotMangaState extends State<HotManga> {
                           runSpacing: -4,
                           children: story.categories
                               // Duyệt qua từng thể loại và tạo widget Text
-                              .map(
+                              .map<Widget>(
                                 (cat) => Text(
                                   cat,
                                   maxLines: 1,

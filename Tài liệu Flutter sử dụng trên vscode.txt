@@ -19,3 +19,16 @@ Extention:
 3: Flutter Widget Snippets → gõ nhanh widget.
 5. Flutter Tree 👉 hiển thị cây widget trực quan.
 6. Flutter Stylizer 👉 tự động sắp xếp property trong widget cho dễ đọc.
+
+// tại sao phải them dấu gạch dưới(_) trước tên biến:
+Dùng dấu _ để:
+
+Bảo vệ dữ liệu bên trong.
+
+Giúp code an toàn, dễ bảo trì.
+
+Thể hiện ý định: “Đây là biến nội bộ, đừng truy cập từ ngoài”.
+
+// ví dụ
+int count = 0;    // public (có thể import và truy cập từ file khác)
+int _count = 0;   // private (chỉ dùng trong file hiện tại)
