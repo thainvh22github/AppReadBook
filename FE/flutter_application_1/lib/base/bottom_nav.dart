@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/resource.dart';
+// import 'package:flutter_application_1/data/resource.dart';
+import 'package:flutter_application_1/services/localization_service.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -11,11 +12,11 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _currentIndex = 0;
 
+  // Xử lý chuyển trang
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
-    // Xử lý chuyển trang
   }
 
   Color _iconColor(int index) {
@@ -28,15 +29,14 @@ class _BottomNavState extends State<BottomNav> {
     return _currentIndex == index ? const Color(0xFF3EA7FF) : Colors.white;
   }
 
-  /**
- * nvtduong
- * 9/9/25
- * thanh chuyen trang o duoi
- */
+  /// Thanh điều hướng dưới cùng
+  /// Author: nvtduong
+  /// Date: 9/9/25
   @override
   Widget build(BuildContext context) {
     return Container(
       color: const Color(0xFF1C1C1C),
+
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -48,7 +48,7 @@ class _BottomNavState extends State<BottomNav> {
               IconButton(
                 icon: Icon(Icons.home, color: _iconColor(0)),
                 onPressed: () => _onItemTapped(0),
-                iconSize: MediaQuery.of(context).size.width * 0.08,
+                iconSize: MediaQuery.of(context).size.width * 0.06,
               ),
               Text(
                 LocalizationService.text("menu_home"),
@@ -64,7 +64,7 @@ class _BottomNavState extends State<BottomNav> {
               IconButton(
                 icon: Icon(Icons.layers, color: _iconColor(1)),
                 onPressed: () => _onItemTapped(1),
-                iconSize: MediaQuery.of(context).size.width * 0.08,
+                iconSize: MediaQuery.of(context).size.width * 0.06,
               ),
               Text(
                 LocalizationService.text("menu_category"),
@@ -80,7 +80,7 @@ class _BottomNavState extends State<BottomNav> {
               IconButton(
                 icon: Icon(Icons.person_add, color: _iconColor(2)),
                 onPressed: () => _onItemTapped(2),
-                iconSize: MediaQuery.of(context).size.width * 0.08,
+                iconSize: MediaQuery.of(context).size.width * 0.06,
               ),
               Text(
                 LocalizationService.text("menu_follow"),
@@ -96,7 +96,7 @@ class _BottomNavState extends State<BottomNav> {
               IconButton(
                 icon: Icon(Icons.bookmark, color: _iconColor(3)),
                 onPressed: () => _onItemTapped(3),
-                iconSize: MediaQuery.of(context).size.width * 0.08,
+                iconSize: MediaQuery.of(context).size.width * 0.06,
               ),
               Text(
                 LocalizationService.text("menu_book"),
@@ -112,7 +112,7 @@ class _BottomNavState extends State<BottomNav> {
               IconButton(
                 icon: Icon(Icons.mood, color: _iconColor(4)),
                 onPressed: () => _onItemTapped(4),
-                iconSize: MediaQuery.of(context).size.width * 0.08,
+                iconSize: MediaQuery.of(context).size.width * 0.06,
               ),
               Text(
                 LocalizationService.text("menu_self"),

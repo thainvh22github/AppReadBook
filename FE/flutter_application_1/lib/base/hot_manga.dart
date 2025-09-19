@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/fake_data.dart';
-import 'package:flutter_application_1/data/resource.dart';
+// import 'package:flutter_application_1/data/resource.dart';
 import 'dart:async';
+import 'package:flutter_application_1/services/home_service.dart';
+import 'package:flutter_application_1/services/localization_service.dart';
 
 class HotManga extends StatefulWidget {
   const HotManga({super.key});
@@ -9,37 +10,62 @@ class HotManga extends StatefulWidget {
   @override
   State<HotManga> createState() => _HotMangaState();
 }
-/**
- * ndtduong
- * 07/09/25
- * tao list truyen hott
- */
+
+/// danh sach truyen hot
+/// Author: nvtduong
+/// Date: 11/09/25
 
 class _HotMangaState extends State<HotManga> {
+  // hiển thị nhiều cột
   final PageController _pageController = PageController(viewportFraction: 0.25);
+
   int _currentPage = 0;
   Timer? _timer;
+  var itemAll = [];
 
   @override
+  // Khởi tạo và bắt đầu tự động cuộn
   void initState() {
     super.initState();
-    _startAutoScroll();
+    Future.delayed(Duration.zero, () async {
+      await loadData();
+      _startAutoScroll();
+    });
+  }
+
+  Future<void> loadData() async {
+    // Giả lập tải dữ liệu từ API
+    var homeService = HomeService();
+    var item = await homeService.getHotmanga();
+    setState(() {
+      itemAll = item;
+    });
   }
 
   void _startAutoScroll() {
+    // Hủy timer cũ nếu có
     _timer?.cancel();
+
+    // Tạo timer mới để tự động cuộn mỗi 3 giây
     _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      // Kiểm tra nếu vẫn còn trang và controller còn hoạt động
       if (_pageController.hasClients) {
         setState(() {
           _currentPage++;
-          if (_currentPage >= HotMangaStories.length) {
+
+          // Nếu vượt quá số trang, quay lại trang đầu
+          if (_currentPage >= itemAll.length) {
             _currentPage = 0;
+
+            // nhảy thẳng về trang đầu
             _pageController.jumpToPage(0);
           } else {
+            // Cuộn mượt đến trang tiếp theo
             _pageController.animateToPage(
               _currentPage,
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.easeInOut,
+
+              duration: const Duration(milliseconds: 600), // thời gian cuộn
+              curve: Curves.easeInOut, // hiệu ứng cuộn
             );
           }
         });
@@ -48,12 +74,14 @@ class _HotMangaState extends State<HotManga> {
   }
 
   @override
+  // Hủy timer khi widget bị hủy để tránh rò rỉ bộ nhớ
   void dispose() {
     _timer?.cancel();
     _pageController.dispose();
     super.dispose();
   }
 
+  /// Tạm dừng tự động cuộn khi người dùng tương tác
   void _pauseAutoScroll() {
     _timer?.cancel();
     // sau 1s ko vuốt thì chạy tiếp
@@ -63,17 +91,20 @@ class _HotMangaState extends State<HotManga> {
   }
 
   @override
+  /// Xây dựng giao diện
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Tiêu đề
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: Row(
+            // canh đều 2 bên
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            // canh giữa theo chiều dọc
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              // Tiêu đề
               Text(
                 LocalizationService.text("home_cannot_miss"),
                 style: TextStyle(
@@ -84,6 +115,7 @@ class _HotMangaState extends State<HotManga> {
               ),
               Row(
                 children: [
+                  // nút xem thêm
                   Text(
                     LocalizationService.text("home_hot"),
                     style: const TextStyle(
@@ -110,6 +142,8 @@ class _HotMangaState extends State<HotManga> {
           child: Container(
             height: MediaQuery.of(context).size.width * 0.45 * (4 / 3),
             margin: EdgeInsets.only(left: 10),
+
+            // Thêm PageView.builder để hiển thị các mục
             child: PageView.builder(
               controller: _pageController,
               onPageChanged: (index) {
@@ -118,12 +152,19 @@ class _HotMangaState extends State<HotManga> {
                   _currentPage = index;
                 });
               },
-              itemCount: HotMangaStories.length,
+
+              // Số lượng mục trong danh sách
+              itemCount: itemAll.length,
+
+              // Không cần pad hai đầu
               padEnds: false,
               itemBuilder: (context, index) {
-                final story = HotMangaStories[index];
+                final story = itemAll[index];
+
+                // Kiểm tra nếu mục hiện tại được chọn
                 bool isActive = index == _currentPage;
 
+                // Trả về widget cho mỗi mục
                 return AnimatedContainer(
                   duration: const Duration(milliseconds: 400),
                   margin: EdgeInsets.symmetric(
@@ -131,6 +172,7 @@ class _HotMangaState extends State<HotManga> {
                     vertical: isActive ? 10 : 15,
                   ),
 
+                  // Hiệu ứng mờ dần khi không được chọn
                   child: AnimatedOpacity(
                     opacity: isActive ? 1.0 : 0.6,
                     duration: const Duration(milliseconds: 400),
@@ -153,6 +195,7 @@ class _HotMangaState extends State<HotManga> {
                             ],
                           ),
 
+                          /// Ảnh bìa
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Image.asset(
@@ -173,6 +216,7 @@ class _HotMangaState extends State<HotManga> {
                           child: Text(
                             story.title,
                             maxLines: 2,
+                            // nếu tiêu đề dài quá thì hiện dấu ...
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Colors.white,
@@ -189,7 +233,8 @@ class _HotMangaState extends State<HotManga> {
                           spacing: 4,
                           runSpacing: -4,
                           children: story.categories
-                              .map(
+                              // Duyệt qua từng thể loại và tạo widget Text
+                              .map<Widget>(
                                 (cat) => Text(
                                   cat,
                                   maxLines: 1,

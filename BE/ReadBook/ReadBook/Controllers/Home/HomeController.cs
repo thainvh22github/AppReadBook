@@ -23,5 +23,13 @@ namespace Weding.Controllers
             var result = await service.GetAll();
             return result;
         }
+
+        [HttpPost("post")]
+        public async Task<IEnumerable> GetAll1()
+        {
+            var service = _serviceProvider.GetRequiredService<IHomeService>();
+            var result = await service.GetAll();
+            return result;
+        }
     }
 }

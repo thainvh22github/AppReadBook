@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/resource.dart';
+import 'package:flutter_application_1/services/localization_service.dart';
+// import 'package:flutter_application_1/data/resource.dart';
 
 class searchBar extends StatelessWidget {
   const searchBar({super.key});
 
   @override
-  /**
-   * nvtduong
-   * 6/9/25
-   * thanh tim kiem
-   */
+  /// Thanh tìm kiếm ở đầu trang
+  /// Author: nvtduong
+  /// Date: 9/9/25
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
@@ -37,12 +36,13 @@ class searchBar extends StatelessWidget {
                   ],
                 ),
 
+                // TextField để nhập tìm kiếm
                 child: TextField(
                   style: const TextStyle(color: Colors.white60),
                   decoration: InputDecoration(
-                    hintText: LocalizationService.text(
-                      "search_hint",
-                    ), //text trong search
+                    // placeholder trong ô tìm kiếm
+                    hintText: LocalizationService.text("search_hint"),
+
                     hintStyle: TextStyle(color: Colors.white70, fontSize: 14),
                     prefixIcon: Icon(Icons.search, color: Colors.white70),
                     border: InputBorder.none,
@@ -54,7 +54,7 @@ class searchBar extends StatelessWidget {
             const SizedBox(height: 10),
 
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.end, // canh phải
               children: [
                 IconButton(
                   icon: const Icon(Icons.leaderboard, color: Colors.white70),

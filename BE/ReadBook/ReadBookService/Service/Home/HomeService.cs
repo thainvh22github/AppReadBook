@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ReadBookRepo.Entity.Home;
+using ReadBookRepo.Entity.HotMangaStories.Dto;
+using ReadBookRepo.Repo;
+using ReadBookService.IService.Home;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-using ReadBookRepo.Entity.Home;
-using ReadBookRepo.Repo;
-using ReadBookService.IService.Home;
 
 namespace WedingModel.Service
 {
@@ -22,7 +23,7 @@ namespace WedingModel.Service
         /// Lấy toàn bộ giá trị comment
         /// </summary>
         /// <returns></returns>
-        public async Task<List<HomeEntity>> GetAll()
+        public async Task<List<HotMangaStoriesDto>> GetAll()
         {
             var result = await _repo.GetAll();
 
