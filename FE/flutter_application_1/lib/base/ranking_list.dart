@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/fake_data.dart';
-import 'package:flutter_application_1/data/resource.dart';
+// import 'package:flutter_application_1/data/resource.dart';
+import 'package:flutter_application_1/services/localization_service.dart';
+import 'package:flutter_application_1/models/ranking_stories.dart';
+import 'package:flutter_application_1/services/ranking_service.dart'; // Add this import or correct the path if needed
 
 class RankingList extends StatefulWidget {
   const RankingList({super.key});
@@ -16,12 +18,28 @@ class _RankingListState extends State<RankingList> {
   // Controller để điều khiển PageView
   late PageController _pageController;
   int _currentPage = 0;
+  var itemAll = [];
+
+  // Giả lập tải dữ liệu từ API
+  final rankingService = RankingStoriesService();
+
+  Future<void> loadData() async {
+    // Gọi API RankingStories
+    var rankingService = RankingStoriesService();
+    var item = await rankingService.getAllRanking();
+    setState(() {
+      itemAll = item; // itemAll là List<RankingStories>
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     // Khởi tạo PageController với viewportFraction để hiển thị nhiều cột
     _pageController = PageController(viewportFraction: 0.8);
+    Future.delayed(Duration.zero, () async {
+      await loadData();
+    });
   }
 
   @override
@@ -34,7 +52,7 @@ class _RankingListState extends State<RankingList> {
   @override
   Widget build(BuildContext context) {
     // Mỗi trang có 3 mục
-    final totalPages = (RankingStories.length / 3).ceil();
+    final totalPages = (itemAll.length / 3).ceil();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,12 +116,12 @@ class _RankingListState extends State<RankingList> {
               final startIndex = columnIndex * 3;
 
               // Đảm bảo không vượt quá độ dài danh sách
-              final endIndex = (startIndex + 3 <= RankingStories.length)
+              final endIndex = (startIndex + 3 <= itemAll.length)
                   ? startIndex + 3
-                  : RankingStories.length;
+                  : itemAll.length;
 
               // Lấy nhóm 3 mục
-              final group = RankingStories.sublist(startIndex, endIndex);
+              final group = itemAll.sublist(startIndex, endIndex);
 
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -123,7 +141,7 @@ class _RankingListState extends State<RankingList> {
                         children: [
                           //xếp hạng
                           Text(
-                            item["rank"]!,
+                            item.rank!,
                             style: const TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
@@ -136,7 +154,7 @@ class _RankingListState extends State<RankingList> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(6),
                             child: Image.asset(
-                              item["img"]!,
+                              item.img!,
                               height:
                                   MediaQuery.of(context).size.height *
                                   0.1 *
@@ -156,7 +174,7 @@ class _RankingListState extends State<RankingList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  item["title"]!,
+                                  item.title!,
                                   maxLines: 1,
 
                                   // nếu tiêu đề dài quá thì hiện dấu ...
@@ -178,7 +196,7 @@ class _RankingListState extends State<RankingList> {
                                     ),
                                     Flexible(
                                       child: Text(
-                                        " ${item["views"]}",
+                                        " ${item.views}",
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                         style: const TextStyle(
@@ -190,7 +208,7 @@ class _RankingListState extends State<RankingList> {
                                   ],
                                 ),
                                 Text(
-                                  item["author"]!,
+                                  item.author!,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(

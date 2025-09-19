@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/fake_data.dart';
-import 'package:flutter_application_1/data/resource.dart';
+// import 'package:flutter_application_1/data/resource.dart';
 import 'dart:async';
 import 'package:flutter_application_1/services/home_service.dart';
+import 'package:flutter_application_1/services/localization_service.dart';
 
 class HotManga extends StatefulWidget {
   const HotManga({super.key});

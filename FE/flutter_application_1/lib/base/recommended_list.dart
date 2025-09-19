@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/fake_data.dart';
-import 'package:flutter_application_1/data/resource.dart';
+import 'package:flutter_application_1/services/localization_service.dart';
+import 'package:flutter_application_1/services/recommended_service.dart';
+import 'package:flutter_application_1/models/recommended_manga.dart';
+// import 'package:flutter_application_1/data/resource.dart' as resource;
+import 'package:flutter_application_1/services/localization_service.dart';
 
 class RecommendedList extends StatefulWidget {
   const RecommendedList({super.key});
@@ -25,39 +29,76 @@ class RecommendedListState extends State<RecommendedList> {
   // cờ báo xem còn dữ liệu hay không
   bool _hasMore = true;
 
+  // Giả lập dữ liệu từ API
+  final RecommendedMangaService recommendedMangaService =
+      RecommendedMangaService();
+  List<RecommendedManga> _recommendedMangaList = [];
+
+  Future<List<RecommendedManga>> fetchRecommendedManga() async {
+    var recommendedService = RecommendedMangaService();
+    var items = await recommendedService.getAllRecommended();
+    return items; // items là List<RecommendedManga>
+  }
+
   /// Khởi tạo lần đầu với 1 trang dữ liệu
   @override
   void initState() {
-    super.initState();
+    fetchAndLoadFirstPage(); // Load trang đầu tiên
     loadMore(); // Load trang đầu tiên
   }
 
+  /// Hàm tải lại dữ liệu và load trang đầu tiên
+  /// Gọi khi khởi tạo hoặc khi muốn tải lại từ đầu
+  Future<void> fetchAndLoadFirstPage() async {
+    setState(() => _isLoading = true);
+
+    /// Lấy toàn bộ danh sách truyện được đề xuất từ API
+    _recommendedMangaList = await recommendedMangaService.getAllRecommended();
+    _items.clear();
+    _page = 0;
+    _hasMore = true;
+
+    /// Load trang đầu tiên
+    setState(() => _isLoading = false);
+    await loadMore();
+  }
+
+  /// Hàm load thêm dữ liệu
+  /// Gọi khi cuộn đến cuối danh sách
   Future<void> loadMore() async {
-    // Nếu đang load hoặc đã hết dữ liệu thì không làm gì
     if (_isLoading || !_hasMore) return;
     setState(() => _isLoading = true);
 
-    // Giả lập tải dữ liệu từ mạng với độ trễ
+    /// Giả lập độ trễ tải dữ liệu từ API
     await Future.delayed(const Duration(milliseconds: 2000));
 
-    // Tính toán dữ liệu cần load
     final start = _page * _pageSize;
     final end = start + _pageSize;
 
-    // Nếu đã load hết dữ liệu thì đánh dấu không còn dữ liệu nữa
-    if (start >= recommendedManga.length) {
+    /// Kiểm tra nếu đã hết dữ liệu
+    if (start >= _recommendedMangaList.length) {
       _hasMore = false;
     } else {
-      // Thêm dữ liệu mới vào danh sách
       _items.addAll(
-        recommendedManga.sublist(
-          start,
-          end > recommendedManga.length ? recommendedManga.length : end,
-        ),
+        _recommendedMangaList
+            .sublist(
+              start,
+              end > _recommendedMangaList.length
+                  ? _recommendedMangaList.length
+                  : end,
+            )
+            .map(
+              (manga) => {
+                'img': manga.img,
+                'title': manga.title,
+                'views': manga.views.toString(),
+                'author': manga.author,
+                'rank': manga.rank.toString(),
+              },
+            ),
       );
       _page++;
     }
-    // Cập nhật trạng thái
     setState(() => _isLoading = false);
   }
 

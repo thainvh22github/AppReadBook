@@ -14,4 +14,9 @@
     <ProjectReference Include="..\ReadBookRepo\ReadBookRepo.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<Compile Include="Entity\HotMangaStories\Dto\HotMangaStoriesDto.cs" />
+	</ItemGroup>
+
+
 </Project>

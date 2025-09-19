@@ -5,8 +5,18 @@ import 'base/hot_manga.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_application_1/base/ranking_list.dart';
 import 'package:flutter_application_1/base/recommended_list.dart';
+import 'package:flutter/material.dart';
+import 'services/localization_service.dart';
 
-void main() {
+void main() async {
+  // Đảm bảo Flutter đã được khởi tạo trước khi chạy async
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // ✅ Gọi API để tải localization từ backend
+  final localizationService = LocalizationService();
+  await localizationService.fetchAll();
+
+  // Sau khi dữ liệu đã tải xong, mới runApp
   runApp(const MyApp());
 }
 
@@ -54,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
+        // Đảm bảo không bị che khuất bởi notch hoặc status bars
         child: Column(
           children: [
             // Search bar cố định
